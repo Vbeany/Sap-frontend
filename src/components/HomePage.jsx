@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, AlertTriangle, Clock, Edit3 } from 'lucide-react';
+import { Upload, AlertTriangle, CircleAlert, CheckSquare } from 'lucide-react';
 
 const HomePage = ({ onNavigate }) => {
   return (
@@ -11,7 +11,7 @@ const HomePage = ({ onNavigate }) => {
           <nav className="flex space-x-4">
             <button 
               onClick={() => onNavigate('home')}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors outline-purple-950"
             >
               Home
             </button>
@@ -25,26 +25,23 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Panel - Today's Insights */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">        
+        {/* Left Panel - Today's Insights with background opacity only */}
+        <div className="bg-indigo-100/60 rounded-lg border border-gray-200 p-6 shadow-sm outline outline-[3px] outline-offset-[-3px] outline-purple-950/60 min-w-80 max-w-2xl">
           <div className="text-center mb-6">
             <h2 className="text-xl font-semibold text-gray-800 mb-1">Today's Insights</h2>
-            <p className="text-gray-600">7/18</p>
+            <p className="text-gray-600 font-semibold">7/18</p>
           </div>
           
-          <div className="space-y-4 mb-6">
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
-              <span className="text-gray-700">4 Unexcused Absences</span>
-              <span className="text-sm text-gray-500">High Priority</span>
+          <div className="space-y-4 mb-6 text-center">
+            <div className="py-3">
+              <span className="text-gray-700 font-medium">4 Unexcused Absences</span>
             </div>
-            <div className="flex items-center justify-between py-3 border-b border-gray-100">
-              <span className="text-gray-700">2 Tier Changes</span>
-              <span className="text-sm text-gray-500">Review Needed</span>
+            <div className="py-3">
+              <span className="text-gray-700 font-medium">2 Tier Changes</span>
             </div>
-            <div className="flex items-center justify-between py-3">
-              <span className="text-gray-700">3 Intervention Updates</span>
-              <span className="text-sm text-gray-500">In Progress</span>
+            <div className="py-3">
+              <span className="text-gray-700 font-medium">3 Intervention Updates</span>
             </div>
           </div>
 
@@ -55,9 +52,9 @@ const HomePage = ({ onNavigate }) => {
         </div>
 
         {/* Right Panel - Tier Cards */}
-        <div className="space-y-4">
+        <div className="space-y-4 content-center min-w-80 max-w-2xl">
           {/* Tier 3 - Red */}
-          <div className="bg-red-600 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <div className=" bg-red-600 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer">
             <div>
               <h3 className="text-lg font-semibold">Tier 3 Students</h3>
               <p className="text-red-100">Intensive Intervention</p>
@@ -71,7 +68,7 @@ const HomePage = ({ onNavigate }) => {
               <h3 className="text-lg font-semibold">Tier 2 Students</h3>
               <p className="text-yellow-100">Selected Intervention</p>
             </div>
-            <Clock size={24} className="text-yellow-200" />
+            <CircleAlert size={24} className="text-yellow-200" />
           </div>
 
           {/* Tier 1 - Green */}
@@ -80,7 +77,7 @@ const HomePage = ({ onNavigate }) => {
               <h3 className="text-lg font-semibold">Tier 1 Students</h3>
               <p className="text-green-100">Universal Support</p>
             </div>
-            <Edit3 size={24} className="text-green-200" />
+            <CheckSquare size={24} className="text-green-200" />
           </div>
         </div>
       </div>

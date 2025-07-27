@@ -1,12 +1,39 @@
-# React + Vite
+# README.md
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Development Commands
 
-Currently, two official plugins are available:
+- `npm run dev` - Start development server with Vite and hot module replacement
+- `npm run build` - Build for production using Vite
+- `npm run lint` - Run ESLint to check code quality and style
+- `npm run preview` - Preview the production build locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Architecture Overview
 
-## Expanding the ESLint configuration
+This is a React-based Student Analytics Platform (SAP) built with Vite, Tailwind CSS, and React 19. The application follows a simple client-side routing pattern without external routing libraries.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Application Structure
+
+- **App.jsx**: Main application component that handles page routing via local state (`currentPage`)
+- **HomePage.jsx**: Dashboard showing daily insights, tier statistics, and navigation to intervention tracking
+- **InterventionTracking.jsx**: Table-based interface for managing student interventions with search and filtering
+
+### Key Technical Details
+
+- **Routing**: Custom state-based routing using `currentPage` state in App.jsx - no external router
+- **Styling**: Tailwind CSS with custom tier-based color coding (Tier 3: red, Tier 2: yellow, Tier 1: green)
+- **Icons**: Lucide React for consistent iconography throughout the application
+- **Data**: Currently uses hardcoded sample data - real data integration pending
+
+### Component Patterns
+
+- Navigation handled via `onNavigate` prop passed down from App.jsx
+- Consistent Tailwind styling with hover states and transitions
+- Tier-based color coding system implemented in utility functions
+- Responsive design with grid layouts and mobile-friendly navigation
+
+### Development Notes
+
+- ESLint configured with React hooks and refresh plugins
+- Uses ES modules (`"type": "module"` in package.json)
+- Tailwind configured to scan all JSX/TSX files in src directory
+- No TypeScript - uses JavaScript with JSX throughout
