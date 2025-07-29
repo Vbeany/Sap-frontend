@@ -11,13 +11,13 @@ const HomePage = ({ onNavigate }) => {
           <nav className="flex space-x-4">
             <button 
               onClick={() => onNavigate('home')}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors outline-purple-950"
+              className="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
             >
               Home
             </button>
             <button 
               onClick={() => onNavigate('intervention')}
-              className="px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
             >
               Intervention Tracking
             </button>
