@@ -141,15 +141,15 @@ const InterventionTracking = ({ onNavigate }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <Search size={20} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search size={20} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
             </div>
           </div>
           {/* Add New Button */}
-          <button className="bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-between w-[210px] h-[50px] px-4">
+          <button className="bg-blue-600 text-white rounded-lg hover:bg-[#2F61CE] transition-colors flex items-center justify-between w-[200px] h-[50px] px-4">
             <span className="flex items-center">
-              <FileText size={20} />
+              <FileText size={23.5} className="text-gray-200" />
             </span>
-            <span className="font-semibold text-lg">
+            <span className="font-bold">
               Export Report
             </span>
           </button>
@@ -204,7 +204,7 @@ const InterventionTracking = ({ onNavigate }) => {
                     {intervention.intervention}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-gray-700">
+                      <span className="text-sm text-black">
                         {intervention.caseManager}
                       </span>
                   </td>
