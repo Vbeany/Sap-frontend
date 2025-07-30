@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import HomePage from './components/HomePage';
-import InterventionTracking from './components/InterventionTracking';
+import HomePage from './components/pages/HomePage';
+import InterventionTracking from './components/pages/InterventionTracking';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
