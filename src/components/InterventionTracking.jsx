@@ -17,7 +17,7 @@ const InterventionTracking = ({ onNavigate }) => {
       startDate: "2024-07-15",
       status: "Active",
       progress: "Improving",
-      latestUpdate: "2024-08-01"
+      latestUpdate: "3 day ago"
     },
     {
       id: 2,
@@ -29,7 +29,7 @@ const InterventionTracking = ({ onNavigate }) => {
       startDate: "2024-07-10",
       status: "Active",
       progress: "Stable", 
-      latestUpdate: "2024-08-01"
+      latestUpdate: "1 day ago"
     },
     {
       id: 3,
@@ -41,7 +41,7 @@ const InterventionTracking = ({ onNavigate }) => {
       startDate: "2024-07-01",
       status: "Completed",
       progress: "Successful",
-      latestUpdate: "2024-08-01"
+      latestUpdate: "2 day ago"
     },
     {
       id: 4,
@@ -53,7 +53,7 @@ const InterventionTracking = ({ onNavigate }) => {
       startDate: "2024-07-10",
       status: "Active",
       progress: "Stable",
-      latestUpdate: "2024-08-01",
+      latestUpdate: "1 day ago",
     },
     {
       id: 5,
@@ -65,16 +65,16 @@ const InterventionTracking = ({ onNavigate }) => {
       startDate: "2024-07-10",
       status: "Active",
       progress: "Stable",
-      latestUpdate: "2024-08-01",
+      latestUpdate: "6 day ago",
     },
   ];
 
   const getTierColor = (tier) => {
     switch(tier) {
-      case 3: return 'bg-red-100 text-red-800';
-      case 2: return 'bg-yellow-100 text-yellow-800';
-      case 1: return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 3: return "text-[#B70606]";
+      case 2: return 'text-[#D9C702]';
+      case 1: return 'text-[#4CAF50]';
+      default: return 'text-gray-800';
     }
   };
 
@@ -122,14 +122,13 @@ const InterventionTracking = ({ onNavigate }) => {
 
       {/* Controls */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 shadow-sm">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-
+        <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8 space-y-4 lg:space-y-0">         
+          <div className="flex flex-col sm:flex-row sm:justify-between space-y-4 sm:space-y-0 sm:space-x-4 w-full">
             {/* Title and Description */}
             <div className="flex items-center space-x-2">
                <div className="px-6 py-4  border-gray-200">
-                <h1 className="text-2xl font-bold text-gray-900">Intervention Tracking</h1>
-                <p className="text-sm text-gray-500">Track and manage student interventions effectively.</p>
+                <h1 className="text-2xl font-bold text-gray-900">Interventions Tracking</h1>
+                <p className="text-md text-gray-700">Monitor progress and manage interventions</p>
                 </div>
             </div>
 
@@ -137,53 +136,51 @@ const InterventionTracking = ({ onNavigate }) => {
             <div className="relative flex items-center">
               <input
                 type="text"
-                placeholder="Search students..."
+                placeholder="Search for students..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <Search size={20} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search size={20} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
             </div>
           </div>
-
           {/* Add New Button */}
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
-            <FileText size={20} />
-            <span>Export Report</span>
+          <button className="bg-blue-600 text-white rounded-lg hover:bg-[#2F61CE] transition-colors flex items-center justify-between w-[200px] h-[50px] px-4">
+            <span className="flex items-center">
+              <FileText size={23.5} className="text-gray-200" />
+            </span>
+            <span className="font-bold">
+              Export Report
+            </span>
           </button>
         </div>
       </div>
 
       {/* Interventions List */}
-      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Active Interventions</h2>
-          <p className="text-sm text-gray-500">Track and manage student interventions effectively.</p>
-        </div>
-
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">       
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <thead className="bg-[#F3F3F3]">
+              <tr className="h-16">
+                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
                   Student Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
                   Tier
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
                   Interventions
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
                   Case Manager
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
                   Progress
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
                   Notes
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-center text-md font-bold text-black tracking-wider">
                   Last Updated
                 </th>
               </tr>
@@ -193,22 +190,21 @@ const InterventionTracking = ({ onNavigate }) => {
                 <tr key={intervention.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <User size={16} className="text-gray-400 mr-2" />
                       <span className="text-sm font-medium text-gray-900">
                         {intervention.studentName}
                       </span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getTierColor(intervention.tier)}`}>
-                      Tier {intervention.tier}
+                    <span className={`inline-flex px-2 py-1 text-md font-bold rounded-full ${getTierColor(intervention.tier)}`}>
+                      {intervention.tier}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {intervention.intervention}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm text-black">
                         {intervention.caseManager}
                       </span>
                   </td>
@@ -217,20 +213,14 @@ const InterventionTracking = ({ onNavigate }) => {
                       {intervention.progress}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 max-w-xs truncate">
                     {intervention.notes}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex items-center text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                    <div className="flex items-center justify-center text-sm text-gray-700">
                       <Calendar size={16} className="mr-1" />
                       {intervention.latestUpdate}
                     </div>
-                    {/* <button className="text-blue-600 hover:text-blue-900 mr-3">
-                      Edit
-                    </button>
-                    <button className="text-red-600 hover:text-red-900">
-                      Remove
-                    </button> */}
                   </td>
                 </tr>
               ))}
@@ -241,8 +231,8 @@ const InterventionTracking = ({ onNavigate }) => {
         {filteredInterventions.length === 0 && (
           <div className="px-6 py-12 text-center">
             <AlertCircle size={48} className="mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No interventions found</h3>
-            <p className="text-gray-500">Try adjusting your search or filter criteria.</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Student not found</h3>
+            <p className="text-gray-500">Try adjusting your search.</p>
           </div>
         )}
       </div>
