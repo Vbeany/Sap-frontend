@@ -54,31 +54,45 @@ const HomePage = ({ onNavigate }) => {
         {/* Right Panel - Tier Cards */}
         <div className="space-y-4 content-center min-w-80 max-w-2xl">
           {/* Tier 3 - Red */}
-          <div className=" bg-red-600 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <button
+            type="button"
+            className="bg-red-600 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer w-full"
+            aria-label="View Tier 3 Students"
+          >
             <div>
               <h3 className="text-lg font-semibold">Tier 3 Students</h3>
               <p className="text-red-100">Intensive Intervention</p>
             </div>
             <AlertTriangle size={24} className="text-red-200" />
-          </div>
+          </button>
 
           {/* Tier 2 - Yellow */}
-          <div className="bg-yellow-500 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <button
+            type="button"
+            className="bg-yellow-500 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer w-full"
+            aria-label="View Tier 2 Students"
+          >
             <div>
               <h3 className="text-lg font-semibold">Tier 2 Students</h3>
               <p className="text-yellow-100">Selected Intervention</p>
             </div>
             <CircleAlert size={24} className="text-yellow-200" />
-          </div>
+          </button>
 
           {/* Tier 1 - Green */}
-          <div className="bg-green-600 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+          <button
+            onClick={() => onNavigate('tier')}
+            type="button"
+            className="bg-green-600 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer w-full"
+            aria-label="View Tier 1 Students"
+          >
             <div>
               <h3 className="text-lg font-semibold">Tier 1 Students</h3>
               <p className="text-green-100">Universal Support</p>
             </div>
             <CheckSquare size={24} className="text-green-200" />
-          </div>
+          </button>
+          
         </div>
       </div>
     </div>

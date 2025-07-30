@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Search, Filter, FileText, Calendar, User, AlertCircle } from 'lucide-react';
+import SearchBar from '../common/SearchBar';
 
 const InterventionTracking = ({ onNavigate }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterTier, setFilterTier] = useState('all');
 
   // Sample data - replace with real data later
   const interventions = [
@@ -89,8 +89,7 @@ const InterventionTracking = ({ onNavigate }) => {
 
   const filteredInterventions = interventions.filter(intervention => {
     const matchesSearch = intervention.studentName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesTier = filterTier === 'all' || intervention.tier.toString() === filterTier;
-    return matchesSearch && matchesTier;
+    return matchesSearch;
   });
 
   return (
@@ -134,14 +133,10 @@ const InterventionTracking = ({ onNavigate }) => {
 
             {/* Search */}
             <div className="relative flex items-center">
-              <input
-                type="text"
-                placeholder="Search for students..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pr-10 pl-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <Search size={20} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+              <SearchBar 
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+              />              
             </div>
           </div>
           {/* Add New Button */}
