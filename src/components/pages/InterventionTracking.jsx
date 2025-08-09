@@ -53,7 +53,7 @@ const InterventionTracking = ({ onNavigate, previousPage }) => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="h-screen bg-gray-50 p-6 flex flex-col overflow-hidden">
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-center justify-between">
@@ -80,7 +80,7 @@ const InterventionTracking = ({ onNavigate, previousPage }) => {
       </header>
 
       {/* Controls */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 shadow-sm">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 shadow-sm flex-shrink-0">
         <div className="flex flex-col lg:flex-row lg:items-center lg:space-x-8 space-y-4 lg:space-y-0">         
           <div className="flex flex-col sm:flex-row sm:justify-between space-y-4 sm:space-y-0 sm:space-x-4 w-full">
             {/* Title and Description */}
@@ -96,6 +96,7 @@ const InterventionTracking = ({ onNavigate, previousPage }) => {
               <SearchBar 
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
+                width="w-64"
               />              
             </div>
           </div>
@@ -112,30 +113,30 @@ const InterventionTracking = ({ onNavigate, previousPage }) => {
       </div>
 
       {/* Interventions List */}
-      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">       
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden flex-1 flex flex-col min-h-0">       
+        <div className="overflow-x-auto flex-1">
           <table className="w-full">
-            <thead className="bg-[#F3F3F3]">
+            <thead className="bg-[#F3F3F3] sticky top-0 z-10">
               <tr className="h-16">
-                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
+                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider w-52">
                   Student Name
                 </th>
-                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
+                <th className="px-2 py-3 text-left text-md font-bold text-black tracking-wider">
                   Tier
                 </th>
-                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
+                <th className="px-2 py-3 text-left text-md font-bold text-black tracking-wider w-72">
                   Interventions
                 </th>
-                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
+                <th className="px-2 py-3 text-left text-md font-bold text-black tracking-wider w-64">
                   Case Manager
                 </th>
-                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
+                <th className="px-2 py-3 text-left text-md font-bold text-black tracking-wider w-64">
                   Progress
                 </th>
-                <th className="px-6 py-3 text-left text-md font-bold text-black tracking-wider">
+                <th className="px-2 py-3 text-left text-md font-bold text-black tracking-wider w-64">
                   Notes
                 </th>
-                <th className="px-6 py-3 text-center text-md font-bold text-black tracking-wider">
+                <th className="px-2 py-3 text-center text-md font-bold text-black tracking-wider">
                   Last Updated
                 </th>
               </tr>
@@ -143,35 +144,35 @@ const InterventionTracking = ({ onNavigate, previousPage }) => {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredInterventions.map((intervention) => (
                 <tr key={intervention.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="pl-6 pr-2 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <span className="text-sm font-medium text-gray-900">
                         {intervention.studentName}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-md font-bold rounded-full ${getTierColor(intervention.tier)}`}>
                       {intervention.tier}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-2 py-4 text-sm text-gray-900 max-w-xs">
                     {intervention.intervention}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                       <span className="text-sm text-black">
                         {intervention.caseManager}
                       </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(intervention.progress)}`}>
                       {intervention.progress}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 max-w-xs truncate">
+                  <td className="px-2 py-4 text-sm text-gray-900 max-w-xs">
                     {intervention.notes}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                  <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-center">
                     <div className="flex items-center justify-center text-sm text-gray-700">
                       <Calendar size={16} className="mr-1" />
                       {intervention.latestUpdate}
