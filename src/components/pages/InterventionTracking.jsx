@@ -1,73 +1,33 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Search, Filter, FileText, Calendar, User, AlertCircle } from 'lucide-react';
 import SearchBar from '../common/SearchBar';
+import { getAllStudents } from '../../data/mockStudents';
 
-const InterventionTracking = ({ onNavigate }) => {
+const InterventionTracking = ({ onNavigate, previousPage }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Sample data - replace with real data later
-  const interventions = [
-    {
-      id: 1,
-      studentName: "John Doe",
-      tier: 3,
-      intervention: "Math tutoring, Housing support",
-      caseManager: "Ms. Tracy",
-      notes: "Needs additional support with math concepts",
-      startDate: "2024-07-15",
-      status: "Active",
-      progress: "Improving",
-      latestUpdate: "3 day ago"
-    },
-    {
-      id: 2,
-      studentName: "Mario Rossi",
-      tier: 2,
-      intervention: "English tutoring, Weekly home visits",
-      caseManager: "Ms. Debra",
-      notes: "Struggling with reading comprehension",
-      startDate: "2024-07-10",
-      status: "Active",
-      progress: "Stable", 
-      latestUpdate: "1 day ago"
-    },
-    {
-      id: 3,
-      studentName: "Ana Novak",
-      tier: 1,
-      intervention: "Daily counseling, carpool support",
-      caseManager: "Mr. Truell",
-      notes: "Needs emotional support and transportation assistance",
-      startDate: "2024-07-01",
-      status: "Completed",
-      progress: "Successful",
-      latestUpdate: "2 day ago"
-    },
-    {
-      id: 4,
-      studentName: "Sean Murphy",
-      tier: 2,
-      intervention: "Daily counseling",
-      caseManager: "Mr. Truell",
-      notes: "Struggling with social interactions",
-      startDate: "2024-07-10",
-      status: "Active",
-      progress: "Stable",
-      latestUpdate: "1 day ago",
-    },
-    {
-      id: 5,
-      studentName: "Anurag Pamuru",
-      tier: 2,
-      intervention: "Weekly counseling",
-      caseManager: "Ms. Bea",
-      notes: "Needs support with anxiety management",  
-      startDate: "2024-07-10",
-      status: "Active",
-      progress: "Stable",
-      latestUpdate: "6 day ago",
-    },
-  ];
+  // Gets all students and filter for those with active interventions
+  const allStudents = getAllStudents();
+  const studentsWithInterventions = allStudents.filter(student => 
+    student.interventionProgress && 
+    student.interventionProgress.length > 0 && 
+    student.caseManager
+  );
+
+  // Transforms student data to match the intervention tracking format with mockStudents.js file
+  const interventions = studentsWithInterventions.map(student => ({
+    id: student.id,
+    studentName: student.name,
+    tier: student.tier,
+    intervention: student.activeInterventions,
+    caseManager: student.caseManager || "Not assigned",
+    notes: student.interventionNotes || "No notes available",
+    startDate: student.interventionStartDate || "Not specified",
+    status: "Active",
+    progress: student.interventionProgress.some(int => int.status === "Needs Attention") ? "Needs Attention" : 
+              student.interventionProgress.every(int => int.status === "Completed") ? "Completed" : "In Progress",
+    latestUpdate: student.lastUpdated || "No updates"
+  }));
 
   const getTierColor = (tier) => {
     switch(tier) {
@@ -78,11 +38,11 @@ const InterventionTracking = ({ onNavigate }) => {
     }
   };
 
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'Active': return 'bg-blue-100 text-blue-800';
+  const getStatusColor = (progress) => {
+    switch(progress) {
+      case 'In Progress': return 'bg-blue-100 text-blue-800';
       case 'Completed': return 'bg-green-100 text-green-800';
-      case 'Pending': return 'bg-yellow-100 text-yellow-800';
+      case 'Needs Attention': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -99,7 +59,7 @@ const InterventionTracking = ({ onNavigate }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button 
-              onClick={() => onNavigate('home')}
+              onClick={() => onNavigate(previousPage || 'home')}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <ArrowLeft size={24} className="text-gray-600" />
@@ -204,7 +164,7 @@ const InterventionTracking = ({ onNavigate }) => {
                       </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(intervention.status)}`}>
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(intervention.progress)}`}>
                       {intervention.progress}
                     </span>
                   </td>

@@ -18,7 +18,7 @@ const TierPage = ({ tierNumber = 1, onNavigate }) => {
   const handleViewProfile = (student) => {
     console.log('View profile for:', student.name);
     // Navigate to student profile page
-    // onNavigate(`student-profile/${student.id}`);
+    onNavigate('student-profile', student.id);
   };
 
   const getTierTitle = (tier) => {
@@ -31,9 +31,9 @@ const TierPage = ({ tierNumber = 1, onNavigate }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 flex flex-col justify-center">
+    <div className="min-h-screen bg-gray-50 p-6 flex flex-col">
 
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between pb-8">
         <div className="flex items-center space-x-4">
             <button 
               onClick={() => onNavigate('home')}
@@ -50,7 +50,10 @@ const TierPage = ({ tierNumber = 1, onNavigate }) => {
             >
               Home
             </button>
-            <button className="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold">
+            <button 
+              onClick={() => onNavigate('intervention')}
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
+            >
               Intervention Tracking
             </button>
           </nav>

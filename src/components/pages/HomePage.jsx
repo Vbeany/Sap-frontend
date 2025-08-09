@@ -55,6 +55,7 @@ const HomePage = ({ onNavigate }) => {
         <div className="space-y-4 content-center min-w-80 max-w-2xl">
           {/* Tier 3 - Red */}
           <button
+            onClick={() => onNavigate('tier3')}
             type="button"
             className="bg-red-600 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer w-full"
             aria-label="View Tier 3 Students"
@@ -68,6 +69,7 @@ const HomePage = ({ onNavigate }) => {
 
           {/* Tier 2 - Yellow */}
           <button
+            onClick={() => onNavigate('tier2')}
             type="button"
             className="bg-yellow-500 text-white rounded-lg p-6 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow cursor-pointer w-full"
             aria-label="View Tier 2 Students"
