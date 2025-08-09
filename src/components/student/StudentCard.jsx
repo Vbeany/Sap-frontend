@@ -26,7 +26,7 @@ const StudentCard = ({ student, onViewProfile }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow w-80 h-72 flex flex-col">
+    <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow w-full h-72 flex flex-col">
       {/* Header with Avatar and Info */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
@@ -63,10 +63,22 @@ const StudentCard = ({ student, onViewProfile }) => {
 
       {/* Active Interventions */}
       <div className="mb-4 flex-grow">
-        <p className="text-gray-600 text-sm mb-1">Active Interventions:</p>
-        <p className="text-gray-800 text-sm">
-          {student.activeInterventions}
-        </p>
+        <p className="text-gray-600 text-sm mb-2">Active Interventions:</p>
+        <div className="flex flex-wrap gap-2">
+          {student.activeInterventions.split(',').slice(0, 2).map((intervention, index) => (
+            <span 
+              key={index}
+              className="px-3 py-1 border-2 border-gray-300 rounded-full text-black-800 text-sm font-semibold"
+            >
+              {intervention.trim()}
+            </span>
+          ))}
+          {student.activeInterventions.split(',').length > 2 && (
+            <span className="px-3 py-1 bg-gray-100 rounded-full text-gray-600 text-sm font-semibold">
+              +{student.activeInterventions.split(',').length - 2} more
+            </span>
+          )}
+        </div>
       </div>
 
       {/* View Profile Button */}

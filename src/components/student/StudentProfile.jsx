@@ -1,9 +1,9 @@
 // src/components/student/StudentProfile.jsx
 import React from 'react';
-import { ArrowLeft, User, GraduationCap, Target, AlertTriangle, Calendar, TrendingDown, CheckCircle, AlertCircle, Clock } from 'lucide-react';
+import { User, GraduationCap, Calendar, TrendingUp, FileText } from 'lucide-react';
 import { getAllStudents } from '../../data/mockStudents';
 
-const StudentProfile = ({ studentId, onNavigate, previousPage }) => {
+const StudentProfile = ({ studentId, onNavigate }) => {
   // Find student by ID
   const allStudents = getAllStudents();
   const student = allStudents.find(s => s.id === parseInt(studentId));
@@ -47,19 +47,6 @@ const StudentProfile = ({ studentId, onNavigate, previousPage }) => {
     return 'text-red-600';
   };
 
-  const getInterventionStatusIcon = (status) => {
-    switch(status) {
-      case 'In Progress':
-        return <Clock className="text-blue-500" size={16} />;
-      case 'Needs Attention':
-        return <AlertTriangle className="text-red-500" size={16} />;
-      case 'Completed':
-        return <CheckCircle className="text-green-500" size={16} />;
-      default:
-        return <AlertCircle className="text-gray-500" size={16} />;
-    }
-  };
-
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
@@ -70,129 +57,114 @@ const StudentProfile = ({ studentId, onNavigate, previousPage }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between pb-8">
-        <div className="flex items-center space-x-4">
-          <button 
-            onClick={() => onNavigate(previousPage || 'home')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <ArrowLeft size={24} className="text-gray-600" />
-          </button>
+      {/* Header similar to homepage */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 shadow-sm">
+        <div className="flex items-center justify-between px-6 py-4 border-gray-200">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Student Profile</h1>
+            <p className="text-md text-gray-700">View detailed student information and progress</p>
+          </div>
+          <nav className="flex space-x-4">
+            <button 
+              onClick={() => onNavigate('home')}
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
+            >
+              Home
+            </button>
+            <button 
+              onClick={() => onNavigate('intervention')}
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
+            >
+              Intervention Tracking
+            </button>
+          </nav>
         </div>
-        
-        <nav className="flex space-x-4">
-          <button 
-            onClick={() => onNavigate('home')}
-            className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
-          >
-            Home
-          </button>
-          <button 
-            onClick={() => onNavigate('intervention')}
-            className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
-          >
-            Intervention Tracking
-          </button>
-        </nav>
       </div>
 
-      <div className="max-w-6xl mx-auto">
-        {/* Student Header */}
-        <div className="bg-white rounded-lg border border-gray-200 p-8 shadow-sm mb-8">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center space-x-6">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-600 font-bold text-2xl">
-                  {student.initials}
-                </span>
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{student.name}</h1>
-                <div className="flex items-center space-x-4 text-gray-600">
-                  <div className="flex items-center space-x-1">
-                    <GraduationCap size={18} />
-                    <span>Grade {student.grade}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Target size={18} />
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${getTierColor(student.tier)}`}>
-                      Tier {student.tier}
-                    </span>
+      <div className="max-w-6xl mx-auto px-12">
+        {/* Combined Student Profile Box */}
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
+          {/* Student Header */}
+          <div className="p-8">
+            <div className="flex items-center justify-between px-8">
+              <div className="flex items-center space-x-6">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span className="text-blue-600 font-bold text-3xl">
+                    {student.initials}
+                  </span>
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900 mb-2">{student.name}</h1>
+                  <div className="flex items-center space-x-4 text-gray-600">
+                    <div className="flex items-center space-x-1">
+                      <GraduationCap size={18} />
+                      <span className="text-md font-light text-gray-900">Grade {student.grade}</span>
+                    </div>
                   </div>
                 </div>
               </div>
+              {/* Tier Badge - Right Side */}
+              <div className="flex items-center space-x-1">
+                <span className={`px-12 py-2 rounded-md text-md font-medium ${getTierColor(student.tier)}`}>
+                  Tier {student.tier}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+          {/* Key Metrics in a Row */}
+          <div className="p-6">
+            <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8 px-8">
+              <div className="text-left flex-1">
+                <div className="mb-2">
+                  <h3 className="text-xl font-medium text-black">GPA</h3>
+                </div>
+                <p className={`text-2xl font-bold ${getGpaColor(student.gpa)}`}>
+                  {student.gpa}
+                </p>
+                <p className="text-sm text-gray-500">Current semester</p>
+              </div>
 
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">GPA</h3>
-              <User size={18} className="text-gray-400" />
+              <div className="text-left flex-1">
+                <div className="mb-2">
+                  <h3 className="text-xl font-medium text-black">Unexcused Absences</h3>
+                </div>
+                <p className="text-2xl font-bold text-red-500">
+                  {student.unexcusedAbsences}
+                </p>
+                <p className="text-sm text-gray-500">This academic year</p>
+              </div>
+
+              <div className="text-left flex-1">
+                <div className="mb-2">
+                  <h3 className="text-xl font-medium text-black">Attendance Rate</h3>
+                </div>
+                <p className={`text-2xl font-bold ${getAttendanceColor(student.attendanceRate)}`}>
+                  {student.attendanceRate}%
+                </p>
+                <p className="text-sm text-gray-500">This academic year</p>
+              </div>
             </div>
-            <p className={`text-2xl font-bold ${getGpaColor(student.gpa)}`}>
-              {student.gpa}
-            </p>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">Unexcused Absences</h3>
-              <TrendingDown size={18} className="text-gray-400" />
-            </div>
-            <p className="text-2xl font-bold text-red-600">
-              {student.unexcusedAbsences}
-            </p>
-          </div>
-
-          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">Attendance Rate</h3>
-              <Calendar size={18} className="text-gray-400" />
-            </div>
-            <p className={`text-2xl font-bold ${getAttendanceColor(student.attendanceRate)}`}>
-              {student.attendanceRate}%
-            </p>
-          </div>
-
-          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-medium text-gray-600">Tier Status</h3>
-              <Target size={18} className="text-gray-400" />
-            </div>
-            <p className="text-lg font-semibold text-gray-900">
-              Tier {student.tier}
-            </p>
-          </div>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Unexcused Absences Details */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center space-x-2">
+          <div className="p-6">
+            <div className="px-8">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center space-x-2 mb-4">
                 <Calendar size={20} />
                 <span>Unexcused Absences</span>
               </h2>
-            </div>
-            <div className="p-6">
               {student.absenceDetails && student.absenceDetails.length > 0 ? (
-                <div className="space-y-4">
+                <div className="max-h-32 overflow-y-auto">
+                <div className="flex flex-col md:flex-row md:flex-wrap gap-2">
                   {student.absenceDetails.map((absence, index) => (
-                    <div key={index} className="border-l-4 border-red-400 pl-4 py-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-semibold text-gray-900">
-                          {formatDate(absence.date)}
-                        </span>
-                        <span className="text-sm text-red-600 font-medium">Unexcused</span>
-                      </div>
-                      <p className="text-gray-600 text-sm">{absence.reason}</p>
+                    <div key={index} className="flex items-center space-x-4 py-1 flex-1 md:flex-none md:w-[calc(50%-0.25rem)]">
+                      <span className="font-semibold text-red-600 min-w-[100px]">
+                        {formatDate(absence.date)}
+                      </span>
+                      <span className="text-red-600">{absence.reason}</span>
                     </div>
                   ))}
+                </div>
                 </div>
               ) : (
                 <p className="text-gray-500 text-center py-8">No unexcused absences recorded</p>
@@ -201,38 +173,80 @@ const StudentProfile = ({ studentId, onNavigate, previousPage }) => {
           </div>
 
           {/* Intervention Progress */}
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-900 flex items-center space-x-2">
-                <Target size={20} />
+          <div className="p-6">
+            <div className="px-8">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center space-x-2 mb-4">
+                <TrendingUp size={20} />
                 <span>Intervention Progress</span>
               </h2>
-            </div>
-            <div className="p-6">
               {student.interventionProgress && student.interventionProgress.length > 0 ? (
                 <div className="space-y-6">
-                  {student.interventionProgress.map((intervention, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-gray-900">{intervention.name}</h3>
-                        <div className="flex items-center space-x-1">
-                          {getInterventionStatusIcon(intervention.status)}
-                          <span className={`text-sm font-medium ${
-                            intervention.status === 'In Progress' ? 'text-blue-600' :
-                            intervention.status === 'Needs Attention' ? 'text-red-600' :
-                            intervention.status === 'Completed' ? 'text-green-600' :
-                            'text-gray-600'
-                          }`}>
-                            {intervention.status}
-                          </span>
-                        </div>
+                {student.interventionProgress.map((intervention, index) => (
+                  <div key={index} className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      {/* Left side - Name and Description */}
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900 mb-2">{intervention.name}</h3>
+                        <p className="text-gray-600 text-sm">{intervention.description}</p>
                       </div>
-                      <p className="text-gray-600 text-sm">{intervention.description}</p>
+                      
+                      {/* Right side - Status Badge */}
+                      <div className="flex items-center ml-4">
+                        <span className={`px-4 py-2 rounded-md text-sm font-medium ${
+                          intervention.status === 'In Progress' ? 'bg-green-600 text-white' :
+                          intervention.status === 'Needs Attention' ? 'bg-orange-600 text-white' :
+                          intervention.status === 'Completed' ? 'bg-green-600 text-white' :
+                          'bg-gray-600 text-white'
+                        }`}>
+                          {intervention.status}
+                        </span>
+                      </div>
                     </div>
-                  ))}
+                  </div>
+                ))}
                 </div>
               ) : (
                 <p className="text-gray-500 text-center py-8">No interventions currently active</p>
+              )}
+            </div>
+          </div>
+
+          {/* Notes Section */}
+          <div className="p-6 pb-24">
+            <div className="px-8">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center space-x-2 mb-4">
+                <FileText size={20} />
+                <span>Notes & Comments</span>
+              </h2>
+              {student.interventionNotes ? (
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <User size={16} className="text-blue-600" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <span className="text-sm font-medium text-gray-900">
+                          {student.caseManager || 'Case Manager'}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {student.lastUpdated || 'Recently'}
+                        </span>
+                      </div>
+                      <p className="text-gray-700 text-sm leading-relaxed">
+                        {student.interventionNotes}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <FileText size={48} className="mx-auto text-gray-400 mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No notes available</h3>
+                  <p className="text-gray-500">No intervention notes or comments have been added yet.</p>
+                </div>
               )}
             </div>
           </div>

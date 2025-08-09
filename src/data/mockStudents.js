@@ -675,7 +675,7 @@ export const mockStudents = {
       gpa: 1.8,
       unexcusedAbsences: 15,
       attendanceRate: 62.4,
-      activeInterventions: "Intensive case management, Alternative schedule",
+      activeInterventions: "Alternative schedule",
       tier: 3,
       absenceDetails: [
         {
@@ -740,11 +740,6 @@ export const mockStudents = {
         }
       ],
       interventionProgress: [
-        {
-          name: "Intensive case management",
-          status: "Needs Attention",
-          description: "Daily contact with case manager and family liaison"
-        },
         {
           name: "Alternative schedule",
           status: "In Progress",
