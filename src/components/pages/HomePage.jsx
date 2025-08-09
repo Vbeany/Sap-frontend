@@ -6,6 +6,14 @@ const HomePage = ({ onNavigate }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showUploadFeedback, setShowUploadFeedback] = useState(false);
 
+  // Gets the  current date and displays 
+  const getCurrentDate = () => {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    return `${month}/${day}`;
+  };
+
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
@@ -59,7 +67,7 @@ const HomePage = ({ onNavigate }) => {
           <div className="bg-indigo-100/60 rounded-lg border border-gray-200 py-16 px-4 shadow-sm outline outline-[3px] outline-offset-[-3px] outline-purple-950/60 w-full max-w-sm flex flex-col justify-center">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-800 mb-1">Today's Insights</h2>
-              <p className="text-2xl font-semibold text-gray-800 mb-1">7/18</p>
+              <p className="text-2xl font-semibold text-gray-800 mb-1">{getCurrentDate()}</p>
             </div>
             <div className="space-y-2 mb-6 flex flex-col items-center">
               <div className="text-left">
