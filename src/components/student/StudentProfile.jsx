@@ -42,8 +42,9 @@ const StudentProfile = ({ studentId, onNavigate }) => {
   };
 
   const getAttendanceColor = (rate) => {
-    if (rate >= 95) return 'text-green-600';
-    if (rate >= 85) return 'text-yellow-600';
+    const percentage = rate <= 1 ? rate * 100 : rate;
+    if (percentage >= 95) return 'text-green-600';
+    if (percentage >= 85) return 'text-yellow-600';
     return 'text-red-600';
   };
 
@@ -139,7 +140,7 @@ const StudentProfile = ({ studentId, onNavigate }) => {
                   <h3 className="text-xl font-medium text-black">Attendance Rate</h3>
                 </div>
                 <p className={`text-2xl font-bold ${getAttendanceColor(student.attendanceRate)}`}>
-                  {student.attendanceRate}%
+                  {student.attendanceRate <= 1 ? (student.attendanceRate * 100).toFixed(1) : student.attendanceRate}%
                 </p>
                 <p className="text-sm text-gray-500">This academic year</p>
               </div>
