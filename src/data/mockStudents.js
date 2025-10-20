@@ -18,12 +18,19 @@ export const mockStudents = {
           reason: "Sick - No doctor's note provided"
         }
       ],
-      interventionProgress: []
+      interventionProgress: [],
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: true,
+      rti: false,
+      flexAcademy: false
     },
     {
       id: 2,
       name: "Joe Bloggs",
-      initials: "JB", 
+      initials: "JB",
       grade: 12,
       gpa: 3.8,
       unexcusedAbsences: 1,
@@ -36,7 +43,14 @@ export const mockStudents = {
           reason: "Unexcused - Missed first period"
         }
       ],
-      interventionProgress: []
+      interventionProgress: [],
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: false,
+      rti: false,
+      flexAcademy: false
     },
     {
       id: 3,
@@ -49,7 +63,14 @@ export const mockStudents = {
       activeInterventions: "N/A",
       tier: 1,
       absenceDetails: [],
-      interventionProgress: []
+      interventionProgress: [],
+      petition: false,
+      specialEducation: false,
+      plan504: true,
+      iep: false,
+      ml: true,
+      rti: false,
+      flexAcademy: false
     },
     {
       id: 4,
@@ -62,7 +83,14 @@ export const mockStudents = {
       activeInterventions: "N/A",
       tier: 1,
       absenceDetails: [],
-      interventionProgress: []
+      interventionProgress: [],
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: false,
+      rti: false,
+      flexAcademy: false
     },
     {
       id: 5,
@@ -84,7 +112,14 @@ export const mockStudents = {
           reason: "Unexcused - Did not attend"
         }
       ],
-      interventionProgress: []
+      interventionProgress: [],
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: false,
+      rti: true,
+      flexAcademy: false
     },
     {
       id: 6,
@@ -102,7 +137,14 @@ export const mockStudents = {
           reason: "Unexcused - Left during break"
         }
       ],
-      interventionProgress: []
+      interventionProgress: [],
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: true,
+      rti: false,
+      flexAcademy: false
     }
   ],
   
@@ -146,7 +188,14 @@ export const mockStudents = {
       caseManager: "Ms. Tracy",
       interventionNotes: "Needs additional support with emotional regulation",
       interventionStartDate: "2024-02-15",
-      lastUpdated: "2 days ago"
+      lastUpdated: "2 days ago",
+      petition: true,
+      specialEducation: false,
+      plan504: true,
+      iep: false,
+      ml: false,
+      rti: true,
+      flexAcademy: false
     },
     {
       id: 8,
@@ -195,7 +244,14 @@ export const mockStudents = {
       caseManager: "Ms. Rodriguez",
       interventionNotes: "Student showing improvement in math skills but attendance remains a concern",
       interventionStartDate: "2024-02-01",
-      lastUpdated: "3 days ago"
+      lastUpdated: "3 days ago",
+      petition: false,
+      specialEducation: true,
+      plan504: false,
+      iep: true,
+      ml: true,
+      rti: false,
+      flexAcademy: true
     },
     {
       id: 9,
@@ -240,7 +296,14 @@ export const mockStudents = {
       caseManager: "Ms. Henderson",
       interventionNotes: "Student responding well to group setting but needs continued attendance support",
       interventionStartDate: "2024-02-20",
-      lastUpdated: "4 days ago"
+      lastUpdated: "4 days ago",
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: true,
+      rti: true,
+      flexAcademy: false
     },
     {
       id: 10,
@@ -293,7 +356,14 @@ export const mockStudents = {
       caseManager: "Mr. Wilson",
       interventionNotes: "Senior struggling with attendance and motivation - needs graduation support",
       interventionStartDate: "2024-01-25",
-      lastUpdated: "5 days ago"
+      lastUpdated: "5 days ago",
+      petition: true,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: false,
+      rti: false,
+      flexAcademy: true
     },
     {
       id: 14,
@@ -338,7 +408,14 @@ export const mockStudents = {
       caseManager: "Ms. Park",
       interventionNotes: "Student showing improvement in reading but needs continued support with organization",
       interventionStartDate: "2024-03-01",
-      lastUpdated: "3 days ago"
+      lastUpdated: "3 days ago",
+      petition: false,
+      specialEducation: true,
+      plan504: true,
+      iep: true,
+      ml: false,
+      rti: true,
+      flexAcademy: false
     },
     {
       id: 15,
@@ -387,7 +464,14 @@ export const mockStudents = {
       caseManager: "Mr. Thompson",
       interventionNotes: "Student responding well to structure but needs consistent follow-through",
       interventionStartDate: "2024-02-14",
-      lastUpdated: "2 days ago"
+      lastUpdated: "2 days ago",
+      petition: false,
+      specialEducation: false,
+      plan504: true,
+      iep: false,
+      ml: false,
+      rti: true,
+      flexAcademy: false
     },
     {
       id: 16,
@@ -440,7 +524,14 @@ export const mockStudents = {
       caseManager: "Ms. Lopez",
       interventionNotes: "Motivated student balancing work and school - needs scheduling support",
       interventionStartDate: "2024-01-30",
-      lastUpdated: "4 days ago"
+      lastUpdated: "4 days ago",
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: true,
+      rti: false,
+      flexAcademy: true
     }
   ],
   
@@ -509,7 +600,14 @@ export const mockStudents = {
       caseManager: "Mr. Johnson",
       interventionNotes: "Requires intensive support with attendance and academic progress",
       interventionStartDate: "2024-01-10",
-      lastUpdated: "1 day ago"
+      lastUpdated: "1 day ago",
+      petition: true,
+      specialEducation: true,
+      plan504: true,
+      iep: true,
+      ml: false,
+      rti: true,
+      flexAcademy: true
     },
     {
       id: 12,
@@ -591,7 +689,14 @@ export const mockStudents = {
       caseManager: "Dr. Martinez",
       interventionNotes: "Student requires comprehensive support - at risk of academic failure",
       interventionStartDate: "2023-12-01",
-      lastUpdated: "1 day ago"
+      lastUpdated: "1 day ago",
+      petition: true,
+      specialEducation: true,
+      plan504: false,
+      iep: true,
+      ml: false,
+      rti: true,
+      flexAcademy: true
     },
     {
       id: 13,
@@ -665,7 +770,14 @@ export const mockStudents = {
       caseManager: "Ms. Foster",
       interventionNotes: "Student making progress with emotional regulation but attendance remains challenging",
       interventionStartDate: "2024-01-15",
-      lastUpdated: "2 days ago"
+      lastUpdated: "2 days ago",
+      petition: false,
+      specialEducation: true,
+      plan504: true,
+      iep: true,
+      ml: false,
+      rti: false,
+      flexAcademy: false
     },
     {
       id: 17,
@@ -754,7 +866,14 @@ export const mockStudents = {
       caseManager: "Dr. Williams",
       interventionNotes: "High-risk student requiring intensive support - considering alternative placement",
       interventionStartDate: "2023-11-15",
-      lastUpdated: "1 day ago"
+      lastUpdated: "1 day ago",
+      petition: true,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: false,
+      rti: true,
+      flexAcademy: true
     },
     {
       id: 18,
@@ -824,7 +943,14 @@ export const mockStudents = {
       caseManager: "Ms. Chen",
       interventionNotes: "Student dealing with significant mental health challenges - requires comprehensive support",
       interventionStartDate: "2024-02-01",
-      lastUpdated: "1 day ago"
+      lastUpdated: "1 day ago",
+      petition: true,
+      specialEducation: true,
+      plan504: true,
+      iep: true,
+      ml: false,
+      rti: false,
+      flexAcademy: false
     },
     {
       id: 19,
@@ -902,7 +1028,14 @@ export const mockStudents = {
       caseManager: "Mr. Vasquez",
       interventionNotes: "Recent immigrant student facing language and cultural barriers - needs intensive academic support",
       interventionStartDate: "2024-01-08",
-      lastUpdated: "2 days ago"
+      lastUpdated: "2 days ago",
+      petition: false,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: true,
+      rti: true,
+      flexAcademy: true
     },
     {
       id: 20,
@@ -988,7 +1121,14 @@ export const mockStudents = {
       caseManager: "Ms. Davis",
       interventionNotes: "Senior with significant life challenges - working parent needing flexible options for graduation",
       interventionStartDate: "2023-10-01",
-      lastUpdated: "3 days ago"
+      lastUpdated: "3 days ago",
+      petition: true,
+      specialEducation: false,
+      plan504: false,
+      iep: false,
+      ml: false,
+      rti: false,
+      flexAcademy: true
     }
   ]
 };
