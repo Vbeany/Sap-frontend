@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Calendar, User, AlertCircle, X, GraduationCap, TrendingUp } from 'lucide-react';
+import { FileText, Calendar, User, AlertCircle, X, GraduationCap, TrendingUp, Edit3 } from 'lucide-react';
 import SearchBar from '../common/SearchBar';
 import { getAllStudents } from '../../data/mockStudents';
 
 const InterventionTracking = ({ onNavigate }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [editingNotes, setEditingNotes] = useState(null);
+  const [notesText, setNotesText] = useState('');
+  const [editingModalNotes, setEditingModalNotes] = useState(false);
+  const [modalNotesText, setModalNotesText] = useState('');
+  const [studentsData, setStudentsData] = useState(() => getAllStudents());
 
-  // Gets all students and filter for those with active interventions
-  const allStudents = getAllStudents();
+  const allStudents = studentsData;
   const studentsWithInterventions = allStudents.filter(student => 
     student.interventionProgress && 
     student.interventionProgress.length > 0 && 
@@ -62,6 +66,8 @@ const InterventionTracking = ({ onNavigate }) => {
 
   const closeModal = () => {
     setSelectedStudent(null);
+    setEditingModalNotes(false);
+    setModalNotesText('');
     // Re-enable body scroll when modal closes
     document.body.style.overflow = 'unset';
   };
@@ -95,6 +101,70 @@ const InterventionTracking = ({ onNavigate }) => {
       day: 'numeric',
       year: 'numeric'
     });
+  };
+
+  // Function to update student notes in the main data state
+  const updateStudentNotes = (studentId, newNotes) => {
+    setStudentsData(prevStudents => 
+      prevStudents.map(student => 
+        student.id === studentId 
+          ? { ...student, interventionNotes: newNotes }
+          : student
+      )
+    );
+  };
+
+  // Notes editing functions
+  const handleEditNotes = (intervention) => {
+    setEditingNotes(intervention);
+    setNotesText(intervention.notes || '');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleSaveNotes = () => {
+    // Update the main students data state
+    updateStudentNotes(editingNotes.id, notesText);
+    
+    setEditingNotes(null);
+    setNotesText('');
+    document.body.style.overflow = 'unset';
+    
+    // Note: In a real application, you would save this to your backend here
+    console.log('Updated notes for student:', editingNotes.studentName, 'Notes:', notesText);
+  };
+
+  const handleCancelEditNotes = () => {
+    setEditingNotes(null);
+    setNotesText('');
+    document.body.style.overflow = 'unset';
+  };
+
+  // Modal notes editing functions
+  const handleEditModalNotes = () => {
+    setEditingModalNotes(true);
+    setModalNotesText(selectedStudent.interventionNotes || '');
+  };
+
+  const handleSaveModalNotes = () => {
+    // Update the main students data state
+    updateStudentNotes(selectedStudent.id, modalNotesText);
+    
+
+    setSelectedStudent(prev => ({
+      ...prev,
+      interventionNotes: modalNotesText
+    }));
+    
+    setEditingModalNotes(false);
+    setModalNotesText('');
+    
+  
+    console.log('Updated modal notes for student:', selectedStudent.name, 'Notes:', modalNotesText);
+  };
+
+  const handleCancelEditModalNotes = () => {
+    setEditingModalNotes(false);
+    setModalNotesText('');
   };
 
   // Cleanup effect to restore body scroll if component unmounts with modal open
@@ -183,14 +253,16 @@ const InterventionTracking = ({ onNavigate }) => {
                 <th className="px-2 py-3 text-center text-md font-bold text-black tracking-wider w-40">
                   Last Updated
                 </th>
+                <th className="px-2 py-3 text-center text-md font-bold text-black tracking-wider w-32">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredInterventions.map((intervention) => (
                 <tr 
                   key={intervention.id} 
-                  className="hover:bg-gray-50 cursor-pointer transition-colors"
-                  onClick={() => handleRowClick(intervention)}
+                  className="hover:bg-gray-50 transition-colors"
                 >
                   <td className="pl-6 pr-2 py-4 whitespace-nowrap">
                     <div className="flex items-center">
@@ -218,13 +290,33 @@ const InterventionTracking = ({ onNavigate }) => {
                     </span>
                   </td>
                   <td className="px-2 py-4 text-sm text-gray-900 max-w-xs">
-                    {intervention.notes}
+                    <div className="flex items-center justify-between group">
+                      <span className="truncate pr-2">{intervention.notes}</span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditNotes(intervention);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1 text-gray-400 hover:text-blue-600"
+                        title="Edit notes"
+                      >
+                        <Edit3 size={14} />
+                      </button>
+                    </div>
                   </td>
                   <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-center">
                     <div className="flex items-center justify-center text-sm text-gray-700">
                       <Calendar size={16} className="mr-1" />
                       {intervention.latestUpdate}
                     </div>
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap text-center">
+                    <button
+                      onClick={() => handleRowClick(intervention)}
+                      className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
+                    >
+                      See More
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -371,36 +463,138 @@ const InterventionTracking = ({ onNavigate }) => {
               </div>
 
               {/* Notes Section */}
-              {selectedStudent.interventionNotes && (
-                <div className="mb-4">
-                  <h2 className="text-lg font-semibold text-gray-900 flex items-center space-x-2 mb-3">
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="text-lg font-semibold text-gray-900 flex items-center space-x-2">
                     <FileText size={18} />
                     <span>Notes & Comments</span>
                   </h2>
-                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-start space-x-3">
-                      <div className="flex-shrink-0">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <User size={14} className="text-blue-600" />
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <span className="text-sm font-medium text-gray-900">
-                            {selectedStudent.caseManager || 'Case Manager'}
-                          </span>
-                          <span className="text-xs text-gray-500">
-                            {selectedStudent.lastUpdated || 'Recently'}
-                          </span>
-                        </div>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                          {selectedStudent.interventionNotes}
-                        </p>
+                  {!editingModalNotes && (
+                    <button
+                      onClick={handleEditModalNotes}
+                      className="flex items-center space-x-1 px-3 py-1 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-md transition-colors"
+                    >
+                      <Edit3 size={14} />
+                      <span>Edit</span>
+                    </button>
+                  )}
+                </div>
+                
+                {editingModalNotes ? (
+                  <div className="space-y-4">
+                    <textarea
+                      value={modalNotesText}
+                      onChange={(e) => setModalNotesText(e.target.value)}
+                      placeholder="Enter intervention notes and observations..."
+                      className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                      autoFocus
+                    />
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs text-gray-500">
+                        Character count: {modalNotesText.length}
+                      </p>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={handleCancelEditModalNotes}
+                          className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={handleSaveModalNotes}
+                          className="px-3 py-1 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                        >
+                          Save
+                        </button>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                ) : (
+                  selectedStudent.interventionNotes ? (
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0">
+                          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <User size={14} className="text-blue-600" />
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-sm font-medium text-gray-900">
+                              {selectedStudent.caseManager || 'Case Manager'}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {selectedStudent.lastUpdated || 'Recently'}
+                            </span>
+                          </div>
+                          <p className="text-gray-700 text-sm leading-relaxed">
+                            {selectedStudent.interventionNotes}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+                      <p className="text-gray-500 text-sm">No notes available. Click "Edit" to add notes.</p>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Notes Editing Modal */}
+      {editingNotes && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh]">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Edit Notes</h2>
+                <p className="text-sm text-gray-600 mt-1">Student: {editingNotes.studentName}</p>
+              </div>
+              <button
+                onClick={handleCancelEditNotes}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6">
+              <label htmlFor="notes-textarea" className="block text-sm font-medium text-gray-700 mb-2">
+                Intervention Notes
+              </label>
+              <textarea
+                id="notes-textarea"
+                value={notesText}
+                onChange={(e) => setNotesText(e.target.value)}
+                placeholder="Enter intervention notes and observations..."
+                className="w-full h-64 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                autoFocus
+              />
+              <p className="text-xs text-gray-500 mt-2">
+                Character count: {notesText.length}
+              </p>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200">
+              <button
+                onClick={handleCancelEditNotes}
+                className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveNotes}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Save Notes
+              </button>
             </div>
           </div>
         </div>
