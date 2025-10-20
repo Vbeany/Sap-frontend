@@ -7,6 +7,8 @@
 - `npm run lint` - Run ESLint to check code quality and style
 - `npm run preview` - Preview the production build locally
 
+## Live Server: https://student-analytics-platform.vercel.app/
+
 ## Architecture Overview
 
 This is a React-based Student Analytics Platform (SAP) built with Vite, Tailwind CSS, and React 19. The application follows a simple client-side routing pattern without external routing libraries.
