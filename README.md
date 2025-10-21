@@ -7,7 +7,7 @@
 - `npm run lint` - Run ESLint to check code quality and style
 - `npm run preview` - Preview the production build locally
 
-## Live Server: https://student-analytics-platform.vercel.app/
+### Live Server: https://student-analytics-platform.vercel.app/
 
 ## Architecture Overview
 
