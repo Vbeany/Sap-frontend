@@ -1,13 +1,32 @@
 import React, { useRef, useState } from 'react';
-import { Upload, AlertTriangle, CircleAlert, CheckSquare, FileText, X } from 'lucide-react';
+import { Upload, AlertTriangle, CircleAlert, CheckSquare, FileText, X, TrendingDown, ClipboardList } from 'lucide-react';
 
 const HomePage = ({ onNavigate }) => {
   const fileInputRef = useRef(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showUploadFeedback, setShowUploadFeedback] = useState(false);
 
-  // Gets the  current date and displays 
-  const getCurrentDate = () => {
+  const getWeekDateRange = () => {
+    const today = new Date();
+    const dayOfWeek = today.getDay();
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - dayOfWeek);
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    const formatDate = (date) => {
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      return `${month}/${day}`;
+    };
+
+    return `${formatDate(startOfWeek)}-${formatDate(endOfWeek)}`;
+  };
+
+  const getLastUpdated = () => {
     const today = new Date();
     const month = today.getMonth() + 1;
     const day = today.getDate();
@@ -23,7 +42,6 @@ const HomePage = ({ onNavigate }) => {
     if (file) {
       setUploadedFile(file);
       setShowUploadFeedback(true);
-      // Reset the input so the same file can be selected again
       event.target.value = '';
     }
   };
@@ -35,7 +53,6 @@ const HomePage = ({ onNavigate }) => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-      {/* Title Box */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 shadow-sm">
         <div className="flex items-center justify-between px-6 py-4 border-gray-200">
           <div>
@@ -43,13 +60,13 @@ const HomePage = ({ onNavigate }) => {
             <p className="text-md text-gray-700">Comprehensive student data and intervention management</p>
           </div>
           <nav className="flex space-x-4">
-            <button 
+            <button
               onClick={() => onNavigate('home')}
               className="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
             >
               Home
             </button>
-            <button 
+            <button
               onClick={() => onNavigate('intervention')}
               className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-200 transition-colors outline-purple-950 text-md font-semibold"
             >
@@ -59,31 +76,40 @@ const HomePage = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Main Content Box */}
       <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 py-20 max-w-6xl mx-auto">
-        
-        <div className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 justify-between px-12 max-w-4xl mx-auto">        
-          {/* Left Panel - Today's Insights */}
-          <div className="bg-indigo-100/60 rounded-lg border border-gray-200 py-16 px-4 shadow-sm outline outline-[3px] outline-offset-[-3px] outline-purple-950/60 w-full max-w-sm flex flex-col justify-center">
+        <div className="flex flex-col lg:flex-row space-y-8 lg:space-y-0 justify-between px-12 max-w-4xl mx-auto">
+          <div className="bg-gray-50 rounded-lg border border-gray-200 py-8 px-6 shadow-sm w-full max-w-sm flex flex-col justify-center">
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-1">Today's Insights</h2>
-              <p className="text-2xl font-semibold text-gray-800 mb-1">{getCurrentDate()}</p>
+              <h2 className="text-3xl font-semibold text-gray-800 mb-1">Week {getWeekDateRange()}</h2>
+              <p className="text-3xl font-semibold text-gray-800">Insights</p>
             </div>
-            <div className="space-y-2 mb-6 flex flex-col items-center">
-              <div className="text-left">
-                <div className="py-2">
-                  <span className="text-gray-700 font-normal text-lg">4 Unexcused Absences</span>
+
+            <div className="space-y-4 mb-6">
+              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-gray-800">Total Tier Changes</h3>
+                  <TrendingDown size={24} className="text-red-500" />
                 </div>
-                <div className="py-2">
-                  <span className="text-gray-700 font-normal text-lg">2 Tier Changes</span>
+                <div className="flex items-end justify-between">
+                  <p className="text-3xl font-bold text-gray-900">3</p>
+                  <p className="text-sm text-gray-500">Last Updated {getLastUpdated()}</p>
                 </div>
-                <div className="py-2">
-                  <span className="text-gray-700 font-normal text-lg">3 Intervention Updates</span>
+              </div>
+
+              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-gray-800">Intervention Updates</h3>
+                  <ClipboardList size={24} className="text-gray-600" />
+                </div>
+                <div className="flex items-end justify-between">
+                  <p className="text-3xl font-bold text-gray-900">3</p>
+                  <p className="text-sm text-gray-500">Last Updated {getLastUpdated()}</p>
                 </div>
               </div>
             </div>
+
             <div className="flex justify-center">
-              <button 
+              <button
                 onClick={handleUploadClick}
                 className="w-52 bg-blue-600 text-lg font-medium text-white py-4 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
               >
@@ -99,9 +125,8 @@ const HomePage = ({ onNavigate }) => {
               />
             </div>
 
-            {/* Upload Feedback */}
             {showUploadFeedback && uploadedFile && (
-              <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-3 max-w-sm mx-auto">
+              <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <FileText size={16} className="text-green-600" />
@@ -110,7 +135,7 @@ const HomePage = ({ onNavigate }) => {
                       <p className="text-xs text-green-600 truncate max-w-32">{uploadedFile.name}</p>
                     </div>
                   </div>
-                  <button 
+                  <button
                     onClick={clearUpload}
                     className="text-green-600 hover:text-green-800"
                   >
@@ -122,9 +147,7 @@ const HomePage = ({ onNavigate }) => {
             )}
           </div>
 
-          {/* Right Panel - Tier Cards */}
-          <div className="space-y-4 flex flex-col justify-center min-w-80 max-w-2xl ">
-            {/* Tier 3 - Red */}
+          <div className="space-y-4 flex flex-col justify-center min-w-80 max-w-2xl">
             <button
               onClick={() => onNavigate('tier3')}
               type="button"
@@ -138,7 +161,6 @@ const HomePage = ({ onNavigate }) => {
               <AlertTriangle size={24} className="text-red-200" />
             </button>
 
-            {/* Tier 2 - Yellow */}
             <button
               onClick={() => onNavigate('tier2')}
               type="button"
@@ -152,7 +174,6 @@ const HomePage = ({ onNavigate }) => {
               <CircleAlert size={24} className="text-yellow-200" />
             </button>
 
-            {/* Tier 1 - Green */}
             <button
               onClick={() => onNavigate('tier')}
               type="button"
@@ -165,7 +186,6 @@ const HomePage = ({ onNavigate }) => {
               </div>
               <CheckSquare size={24} className="text-green-200" />
             </button>
-            
           </div>
         </div>
       </div>

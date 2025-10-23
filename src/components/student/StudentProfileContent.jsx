@@ -1,10 +1,10 @@
-// src/components/student/StudentProfileContent.jsx
 import React, { useState } from 'react';
 import { User, GraduationCap, Calendar, TrendingUp, FileText, Edit3 } from 'lucide-react';
 
 const StudentProfileContent = ({ student, onStudentUpdate }) => {
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesText, setNotesText] = useState('');
+  const [editingNoteIndex, setEditingNoteIndex] = useState(null);
 
   const getTierColor = (tier) => {
     switch(tier) {
@@ -37,27 +37,62 @@ const StudentProfileContent = ({ student, onStudentUpdate }) => {
     });
   };
 
-  const handleEditNotes = () => {
+  const handleEditNotes = (noteIndex = null) => {
     setEditingNotes(true);
-    setNotesText(student.interventionNotes || '');
+    setEditingNoteIndex(noteIndex);
+
+    if (noteIndex !== null) {
+      const notes = Array.isArray(student.interventionNotes)
+        ? student.interventionNotes
+        : student.interventionNotes
+          ? [{ author: student.caseManager || 'Case Manager', date: student.lastUpdated || 'Recently', content: student.interventionNotes }]
+          : [];
+      setNotesText(notes[noteIndex]?.content || '');
+    } else {
+      setNotesText('');
+    }
+
     document.body.style.overflow = 'hidden';
   };
 
   const handleSaveNotes = () => {
-    if (onStudentUpdate) {
-      onStudentUpdate({ ...student, interventionNotes: notesText });
+    if (notesText.trim() && onStudentUpdate) {
+      const currentNotes = Array.isArray(student.interventionNotes)
+        ? student.interventionNotes
+        : student.interventionNotes
+          ? [{ author: student.caseManager || 'Case Manager', date: student.lastUpdated || 'Recently', content: student.interventionNotes }]
+          : [];
+
+      let updatedNotes;
+
+      if (editingNoteIndex !== null) {
+        updatedNotes = currentNotes.map((note, index) =>
+          index === editingNoteIndex
+            ? { ...note, content: notesText, date: 'Edited just now' }
+            : note
+        );
+      } else {
+        const newNote = {
+          author: student.caseManager || 'Case Manager',
+          date: 'Just now',
+          content: notesText
+        };
+        updatedNotes = [newNote, ...currentNotes];
+      }
+
+      onStudentUpdate({ ...student, interventionNotes: updatedNotes });
     }
 
     setEditingNotes(false);
     setNotesText('');
+    setEditingNoteIndex(null);
     document.body.style.overflow = 'unset';
-
-    console.log('Updated notes for student:', student.name, 'Notes:', notesText);
   };
 
   const handleCancelEditNotes = () => {
     setEditingNotes(false);
     setNotesText('');
+    setEditingNoteIndex(null);
     document.body.style.overflow = 'unset';
   };
 
@@ -134,7 +169,7 @@ const StudentProfileContent = ({ student, onStudentUpdate }) => {
             )}
             {student.specialEducation && (
               <span className="inline-flex px-2 py-1 text-xs font-medium rounded bg-blue-100 text-blue-800">
-                Special Education
+                Special Ed
               </span>
             )}
             {student.plan504 && (
@@ -226,79 +261,105 @@ const StudentProfileContent = ({ student, onStudentUpdate }) => {
       </div>
 
       <div className="mb-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900 flex items-center space-x-2">
-            <FileText size={20} />
-            <span>Notes & Comments</span>
-          </h2>
+        <h2 className="text-xl font-semibold text-gray-900 flex items-center space-x-2 mb-4">
+          <FileText size={20} />
+          <span>Notes & Comments</span>
+        </h2>
+
+        <div className="space-y-4">
+          {editingNotes && (
+            <div className="space-y-4 mb-4">
+              <textarea
+                value={notesText}
+                onChange={(e) => setNotesText(e.target.value)}
+                placeholder="Enter intervention notes and observations..."
+                className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                autoFocus
+              />
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-gray-500">
+                  Character count: {notesText.length}
+                </p>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={handleCancelEditNotes}
+                    className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSaveNotes}
+                    className="px-3 py-1 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {!editingNotes && (
             <button
               onClick={handleEditNotes}
-              className="flex items-center space-x-1 px-3 py-1 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-md transition-colors"
+              className="w-full flex items-center justify-center space-x-2 px-4 py-3 text-sm text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors border-2 border-dashed border-blue-300"
             >
-              <Edit3 size={14} />
-              <span>Edit</span>
+              <Edit3 size={16} />
+              <span>Add New Note</span>
             </button>
           )}
-        </div>
 
-        {editingNotes ? (
-          <div className="space-y-4">
-            <textarea
-              value={notesText}
-              onChange={(e) => setNotesText(e.target.value)}
-              placeholder="Enter intervention notes and observations..."
-              className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-              autoFocus
-            />
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-gray-500">
-                Character count: {notesText.length}
-              </p>
-              <div className="flex space-x-2">
-                <button
-                  onClick={handleCancelEditNotes}
-                  className="px-3 py-1 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSaveNotes}
-                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : student.interventionNotes ? (
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User size={16} className="text-blue-600" />
+          {(() => {
+            const notes = Array.isArray(student.interventionNotes)
+              ? student.interventionNotes
+              : student.interventionNotes
+                ? [{ author: student.caseManager || 'Case Manager', date: student.lastUpdated || 'Recently', content: student.interventionNotes }]
+                : [];
+
+            return notes.length > 0 ? (
+              notes.map((note, index) => (
+                <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-start space-x-3 flex-1">
+                      <div className="flex-shrink-0">
+                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                          <User size={16} className="text-blue-600" />
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="text-sm font-medium text-gray-900">
+                            {note.author}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {note.date}
+                          </span>
+                        </div>
+                        <p className="text-gray-700 text-sm leading-relaxed">
+                          {note.content}
+                        </p>
+                      </div>
+                    </div>
+                    {!editingNotes && (
+                      <button
+                        onClick={() => handleEditNotes(index)}
+                        className="flex items-center space-x-1 px-3 py-2 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-100 rounded-md transition-colors ml-2 self-center"
+                      >
+                        <Edit3 size={14} />
+                        <span>Edit</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-sm font-medium text-gray-900">
-                    {student.caseManager || 'Case Manager'}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {student.lastUpdated || 'Recently'}
-                  </span>
+              ))
+            ) : (
+              !editingNotes && (
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+                  <p className="text-gray-500 text-sm">No notes available yet.</p>
                 </div>
-                <p className="text-gray-700 text-sm leading-relaxed">
-                  {student.interventionNotes}
-                </p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
-            <p className="text-gray-500 text-sm">No notes available. Click "Edit" to add notes.</p>
-          </div>
-        )}
+              )
+            );
+          })()}
+        </div>
       </div>
     </div>
   );

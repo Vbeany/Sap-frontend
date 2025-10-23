@@ -186,7 +186,18 @@ export const mockStudents = {
         }
       ],
       caseManager: "Ms. Tracy",
-      interventionNotes: "Needs additional support with emotional regulation",
+      interventionNotes: [
+        {
+          author: "Ms. Tracy",
+          date: "2 days ago",
+          content: "Needs additional support with emotional regulation"
+        },
+        {
+          author: "Ms. Tracy",
+          date: "1 week ago",
+          content: "Student showed improvement in anger management during group session. Continuing to work on transition strategies."
+        }
+      ],
       interventionStartDate: "2024-02-15",
       lastUpdated: "2 days ago",
       petition: true,
@@ -687,7 +698,23 @@ export const mockStudents = {
         }
       ],
       caseManager: "Dr. Martinez",
-      interventionNotes: "Student requires comprehensive support - at risk of academic failure",
+      interventionNotes: [
+        {
+          author: "Dr. Martinez",
+          date: "1 day ago",
+          content: "Student requires comprehensive support - at risk of academic failure"
+        },
+        {
+          author: "Dr. Martinez",
+          date: "1 week ago",
+          content: "Met with family to discuss attendance concerns. Transportation issues identified as main barrier. Exploring bus pass assistance."
+        },
+        {
+          author: "Mr. Davis",
+          date: "2 weeks ago",
+          content: "Student participated well in today's tutoring session. Showed understanding of algebra concepts when given one-on-one attention."
+        }
+      ],
       interventionStartDate: "2023-12-01",
       lastUpdated: "1 day ago",
       petition: true,
