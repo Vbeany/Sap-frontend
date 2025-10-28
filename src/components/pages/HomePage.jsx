@@ -85,18 +85,24 @@ const HomePage = ({ onNavigate }) => {
             </div>
 
             <div className="space-y-4 mb-6">
-              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <button
+                onClick={() => onNavigate('tier-movements')}
+                className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer w-full text-left"
+              >
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-semibold text-gray-800">Total Tier Changes</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">Tier Changes</h3>
                   <TrendingDown size={24} className="text-red-500" />
                 </div>
                 <div className="flex items-end justify-between">
                   <p className="text-3xl font-bold text-gray-900">3</p>
                   <p className="text-sm text-gray-500">Last Updated {getLastUpdated()}</p>
                 </div>
-              </div>
+              </button>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+              <button
+                onClick={() => onNavigate('intervention-updates')}
+                className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer w-full text-left"
+              >
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-lg font-semibold text-gray-800">Intervention Updates</h3>
                   <ClipboardList size={24} className="text-gray-600" />
@@ -105,7 +111,7 @@ const HomePage = ({ onNavigate }) => {
                   <p className="text-3xl font-bold text-gray-900">3</p>
                   <p className="text-sm text-gray-500">Last Updated {getLastUpdated()}</p>
                 </div>
-              </div>
+              </button>
             </div>
 
             <div className="flex justify-center">

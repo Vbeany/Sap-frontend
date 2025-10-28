@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import HomePage from './components/pages/HomePage';
 import InterventionTracking from './components/pages/InterventionTracking';
 import TierPage from './components/pages/TierPage';
+import TierMovements from './components/pages/TierMovements';
+import InterventionUpdates from './components/pages/InterventionUpdates';
 import StudentProfile from './components/student/StudentProfile';
 
 function App() {
@@ -58,6 +60,10 @@ function App() {
         return <TierPage tierNumber={2} onNavigate={handleNavigation} />;
       case 'tier3':
         return <TierPage tierNumber={3} onNavigate={handleNavigation} />;
+      case 'tier-movements':
+        return <TierMovements onNavigate={handleNavigation} />;
+      case 'intervention-updates':
+        return <InterventionUpdates onNavigate={handleNavigation} />;
       case 'student-profile':
         return <StudentProfile studentId={selectedStudentId} onNavigate={handleNavigation} />;
       default:

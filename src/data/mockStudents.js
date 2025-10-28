@@ -1177,9 +1177,236 @@ export const getAllStudents = () => {
 // Helper function to search students
 export const searchStudents = (students, searchTerm) => {
   if (!searchTerm) return students;
-  
+
   return students.filter(student =>
     student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.initials.toLowerCase().includes(searchTerm.toLowerCase())
   );
 };
+
+export const tierMovements = [
+  {
+    id: 1,
+    studentId: 11,
+    studentName: "Alex Rodriguez",
+    grade: 9,
+    previousTier: 2,
+    newTier: 3,
+    reason: "+2 absences, 8 total",
+    changeDate: "2024-03-15",
+    lastUpdated: "3/15"
+  },
+  {
+    id: 2,
+    studentId: 12,
+    studentName: "Jordan Taylor",
+    grade: 10,
+    previousTier: 2,
+    newTier: 3,
+    reason: "+3 absences, 12 total",
+    changeDate: "2024-03-10",
+    lastUpdated: "3/10"
+  },
+  {
+    id: 3,
+    studentId: 13,
+    studentName: "Casey Brown",
+    grade: 11,
+    previousTier: 2,
+    newTier: 3,
+    reason: "+2 absences, 10 total",
+    changeDate: "2024-03-12",
+    lastUpdated: "3/12"
+  },
+  {
+    id: 4,
+    studentId: 17,
+    studentName: "Tyler Jackson",
+    grade: 11,
+    previousTier: 2,
+    newTier: 3,
+    reason: "+4 absences, 15 total",
+    changeDate: "2024-03-08",
+    lastUpdated: "3/8"
+  },
+  {
+    id: 5,
+    studentId: 18,
+    studentName: "Samantha Lee",
+    grade: 9,
+    previousTier: 2,
+    newTier: 3,
+    reason: "+2 absences, 9 total",
+    changeDate: "2024-03-20",
+    lastUpdated: "3/20"
+  },
+  {
+    id: 6,
+    studentId: 7,
+    studentName: "Marcus Johnson",
+    grade: 10,
+    previousTier: 1,
+    newTier: 2,
+    reason: "+1 absence, 3 total",
+    changeDate: "2024-03-22",
+    lastUpdated: "3/22"
+  },
+  {
+    id: 7,
+    studentId: 8,
+    studentName: "Sarah Williams",
+    grade: 11,
+    previousTier: 1,
+    newTier: 2,
+    reason: "+2 absences, 5 total",
+    changeDate: "2024-03-18",
+    lastUpdated: "3/18"
+  },
+  {
+    id: 8,
+    studentId: 9,
+    studentName: "David Martinez",
+    grade: 9,
+    previousTier: 1,
+    newTier: 2,
+    reason: "+1 absence, 4 total",
+    changeDate: "2024-03-25",
+    lastUpdated: "3/25"
+  },
+  {
+    id: 9,
+    studentId: 1,
+    studentName: "Christy Kieu",
+    grade: 11,
+    previousTier: 2,
+    newTier: 1,
+    reason: "No absences since 2/15",
+    changeDate: "2024-03-01",
+    lastUpdated: "3/1"
+  },
+  {
+    id: 10,
+    studentId: 2,
+    studentName: "Joe Bloggs",
+    grade: 12,
+    previousTier: 2,
+    newTier: 1,
+    reason: "Improved attendance",
+    changeDate: "2024-03-05",
+    lastUpdated: "3/5"
+  }
+];
+
+// Intervention updates tracking
+export const interventionUpdates = [
+  {
+    id: 1,
+    studentId: 11,
+    studentName: "Alex Rodriguez",
+    grade: 9,
+    tier: 3,
+    intervention: "Daily check-ins",
+    update: "Student responded well to morning check-ins this week",
+    changeDate: "2024-04-15",
+    lastUpdated: "4/15"
+  },
+  {
+    id: 2,
+    studentId: 12,
+    studentName: "Jordan Taylor",
+    grade: 10,
+    tier: 3,
+    intervention: "Family support",
+    update: "Met with family to discuss attendance concerns and transportation barriers",
+    changeDate: "2024-04-14",
+    lastUpdated: "4/14"
+  },
+  {
+    id: 3,
+    studentId: 13,
+    studentName: "Casey Brown",
+    grade: 11,
+    tier: 3,
+    intervention: "Daily counseling",
+    update: "Student making progress with emotional regulation",
+    changeDate: "2024-04-16",
+    lastUpdated: "4/16"
+  },
+  {
+    id: 4,
+    studentId: 17,
+    studentName: "Tyler Jackson",
+    grade: 11,
+    tier: 3,
+    intervention: "Alternative schedule",
+    update: "Modified schedule showing positive results - improved attendance",
+    changeDate: "2024-04-15",
+    lastUpdated: "4/15"
+  },
+  {
+    id: 5,
+    studentId: 18,
+    studentName: "Samantha Lee",
+    grade: 9,
+    tier: 3,
+    intervention: "Crisis intervention",
+    update: "Connected family with community mental health services",
+    changeDate: "2024-04-13",
+    lastUpdated: "4/13"
+  },
+  {
+    id: 6,
+    studentId: 19,
+    studentName: "Antonio Morales",
+    grade: 10,
+    tier: 3,
+    intervention: "ESL support",
+    update: "Student showing improvement in language skills and classroom participation",
+    changeDate: "2024-04-16",
+    lastUpdated: "4/16"
+  },
+  {
+    id: 7,
+    studentId: 7,
+    studentName: "Marcus Johnson",
+    grade: 10,
+    tier: 2,
+    intervention: "Weekly counseling",
+    update: "Student showed improvement in anger management during group session",
+    changeDate: "2024-04-12",
+    lastUpdated: "4/12"
+  },
+  {
+    id: 8,
+    studentId: 8,
+    studentName: "Sarah Williams",
+    grade: 11,
+    tier: 2,
+    intervention: "Tutoring",
+    update: "Student showing improvement in math skills",
+    changeDate: "2024-04-11",
+    lastUpdated: "4/11"
+  },
+  {
+    id: 9,
+    studentId: 14,
+    studentName: "Ashley Kim",
+    grade: 9,
+    tier: 2,
+    intervention: "Reading support",
+    update: "Weekly reading sessions showing positive results",
+    changeDate: "2024-04-15",
+    lastUpdated: "4/15"
+  },
+  {
+    id: 10,
+    studentId: 15,
+    studentName: "Michael O'Connor",
+    grade: 10,
+    tier: 2,
+    intervention: "Behavioral support",
+    update: "Student responding well to structure and positive reinforcement",
+    changeDate: "2024-04-16",
+    lastUpdated: "4/16"
+  }
+];
